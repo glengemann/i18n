@@ -13,3 +13,14 @@ definición en el trabajo hecho por el grupo Ralph Johnson y asociados.
 La primera cosa que podemos decir es que la palabra *Refactorización* tiene dos definiciones
 dependiendo del contexto. Podríamos encontrar esto fastidioso (y de hecho lo es), pero
 esto sirve como otro ejemplo más de las realidades de trabajar con lenguajes naturales.
+
+La primera definición como sustantivo:
+
+[NOTE]: refactorización (sustantivo): un cambio hecho a la estructura interna del software
+para hacerlo más facíl de entender y económico de modificar sin cambiar su comportamiento
+observable.
+
+Podemos encontrar ejemplos de refactorización en el catalogo, como `Extract Method`
+y `Pull Up Field`. Una refactorización es usualmente un pequeño cambio en el software,
+pero una refactorización puede implicar otras. Por ejemplo, `Extract Class` usualmente
+implica `Move Method` y `Move Field`.
