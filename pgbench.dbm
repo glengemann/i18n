@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.0-beta2" last-position="0,0" last-zoom="0.95"
+	 default-schema="public" default-owner="postgres">
+<role name="omerta"
+      superuser="true"
+      inherit="true"
+      login="true"
+      encrypted="true"
+      password="********">
+</role>
+
+<role name="ucayapa"
+      inherit="true"
+      login="true"
+      encrypted="true"
+      password="********">
+</role>
+
+<database name="pgbench" encoding="UTF8" lc-collate="es_VE.UTF-8" lc-ctype="es_VE.UTF-8">
+	<role name="omerta"/>
+	<tablespace name="pg_default"/>
+</database>
+
+<schema name="public" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="pgbench_history">
+	<schema name="public"/>
+	<role name="omerta"/>
+	<position x="660" y="200"/>
+	<column name="tid">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="bid">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="aid">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="delta">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="mtime">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="filler">
+		<type name="character" length="22"/>
+	</column>
+</table>
+
+<table name="pgbench_tellers">
+	<schema name="public"/>
+	<role name="omerta"/>
+	<position x="260" y="60"/>
+	<column name="tid" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="bid">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="tbalance">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="filler">
+		<type name="character" length="84"/>
+	</column>
+	<constraint name="pgbench_tellers_pkey" type="pk-constr" table="public.pgbench_tellers">
+		<columns names="tid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="pgbench_accounts">
+	<schema name="public"/>
+	<role name="omerta"/>
+	<position x="280" y="200"/>
+	<column name="aid" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="bid">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="abalance">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="filler">
+		<type name="character" length="84"/>
+	</column>
+	<constraint name="pgbench_accounts_pkey" type="pk-constr" table="public.pgbench_accounts">
+		<columns names="aid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="pgbench_branches">
+	<schema name="public"/>
+	<role name="omerta"/>
+	<position x="580" y="60"/>
+	<column name="bid" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="bbalance">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="filler">
+		<type name="character" length="88"/>
+	</column>
+	<constraint name="pgbench_branches_pkey" type="pk-constr" table="public.pgbench_branches">
+		<columns names="bid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+</dbmodel>

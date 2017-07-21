@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.0-beta2" last-position="151,89" last-zoom="1"
+	 default-schema="public" default-owner="postgres">
+<role name="omerta"
+      superuser="true"
+      inherit="true"
+      login="true"
+      encrypted="true"
+      password="********">
+</role>
+
+<role name="ucayapa"
+      inherit="true"
+      login="true"
+      encrypted="true"
+      password="********">
+</role>
+
+<database name="pgbenchfk" encoding="UTF8" lc-collate="es_VE.UTF-8" lc-ctype="es_VE.UTF-8">
+	<role name="omerta"/>
+	<tablespace name="pg_default"/>
+</database>
+
+<schema name="public" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="pgbench_history">
+	<schema name="public"/>
+	<role name="omerta"/>
+	<position x="660" y="420"/>
+	<column name="tid">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="bid">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="aid">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="delta">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="mtime">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="filler">
+		<type name="character" length="22"/>
+	</column>
+</table>
+
+<table name="pgbench_tellers">
+	<schema name="public"/>
+	<role name="omerta"/>
+	<position x="240" y="240"/>
+	<column name="tid" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="bid">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="tbalance">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="filler">
+		<type name="character" length="84"/>
+	</column>
+	<constraint name="pgbench_tellers_pkey" type="pk-constr" table="public.pgbench_tellers">
+		<columns names="tid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="pgbench_accounts">
+	<schema name="public"/>
+	<role name="omerta"/>
+	<position x="1080" y="240"/>
+	<column name="aid" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="bid">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="abalance">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="filler">
+		<type name="character" length="84"/>
+	</column>
+	<constraint name="pgbench_accounts_pkey" type="pk-constr" table="public.pgbench_accounts">
+		<columns names="aid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="pgbench_branches">
+	<schema name="public"/>
+	<role name="omerta"/>
+	<position x="660" y="280"/>
+	<column name="bid" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="bbalance">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="filler">
+		<type name="character" length="88"/>
+	</column>
+	<constraint name="pgbench_branches_pkey" type="pk-constr" table="public.pgbench_branches">
+		<columns names="bid" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<constraint name="pgbench_history_bid_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.pgbench_branches" table="public.pgbench_history">
+	<columns names="bid" ref-type="src-columns"/>
+	<columns names="bid" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="pgbench_history_tid_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.pgbench_tellers" table="public.pgbench_history">
+	<columns names="tid" ref-type="src-columns"/>
+	<columns names="tid" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="pgbench_history_aid_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.pgbench_accounts" table="public.pgbench_history">
+	<columns names="aid" ref-type="src-columns"/>
+	<columns names="aid" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="pgbench_tellers_bid_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.pgbench_branches" table="public.pgbench_tellers">
+	<columns names="bid" ref-type="src-columns"/>
+	<columns names="bid" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="pgbench_accounts_bid_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.pgbench_branches" table="public.pgbench_accounts">
+	<columns names="bid" ref-type="src-columns"/>
+	<columns names="bid" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="rel_pgbench_history_pgbench_branches" type="relfk"
+	 custom-color="#57037d"
+	 src-table="public.pgbench_history"
+	 dst-table="public.pgbench_branches"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_pgbench_history_pgbench_tellers" type="relfk"
+	 custom-color="#76282d"
+	 src-table="public.pgbench_history"
+	 dst-table="public.pgbench_tellers"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_pgbench_history_pgbench_accounts" type="relfk"
+	 custom-color="#346bb9"
+	 src-table="public.pgbench_history"
+	 dst-table="public.pgbench_accounts"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_pgbench_tellers_pgbench_branches" type="relfk"
+	 custom-color="#f385a0"
+	 src-table="public.pgbench_tellers"
+	 dst-table="public.pgbench_branches"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_pgbench_accounts_pgbench_branches" type="relfk"
+	 custom-color="#9da7de"
+	 src-table="public.pgbench_accounts"
+	 dst-table="public.pgbench_branches"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>
