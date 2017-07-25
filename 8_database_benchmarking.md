@@ -142,6 +142,15 @@ que nunca se actualiza o se consulta luego, en consecuencia esta ni siquiera
 tiene índices. Además, estas inserciones resultan tener un bajo volumen de escritura
 en comparación con las más costosos sentencias UPDATE indexadas.
 
+Esta esta prueba por defecto. Existen otras dos:
+
+`-N`: Lo mismo que la anterior pero salta las dos pequeñas sentencias `UPDATE` que
+impactan a la tabla `teller` y `branch`. Esto reduce los problemas de bloqueo de tablas
+mientras mantiene las operaciones pesadas de escritura.
+
+`-S`: Solo ejecuta la sentencia `SELECT` sobre la tabla `account`, por lo que tampoco
+será necesario envolverla en un bloque de transacciones.
+
 ... pero ejecutar solo sentencias `SELECT` es muy útil para examinar el tamaño de
 la cache en nuestro sistema operativo y para medir la velocidad máximo de CPU.
 
