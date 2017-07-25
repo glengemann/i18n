@@ -32,9 +32,17 @@ ALTER TABLE pgbench_accounts ADD primary key (aid);
 CREATE TABLE pgbench_history(tid int, bid int, aid int, delta int, mtime timestamp, filler char(22));
 ```
 
-...
+La intención de varios campos de filtrado es asegurarse que cada fila insertada
+en la base de dato es realmente de 100 bytes. De hecho esto no trabaja como ...
 
-...
+De lo que deberíamos darnos cuenta es que cada tipo de registro insertado por la
+prueba estándar de pgbench es extremadamente limitado, solo un pequeño número de
+bytes se insertan en cada uno de los registros. En la practica, siempre el más
+pequeño `INSERT` o `UPDATE` usará una página de base de datos estándar de 8K y
+requiere siempre este tamaño cuando escribe. El hecho de que solo una fracción es
+usada después de cada cambio ayuda a reducir el volumen WAL escrito, pero solo una
+vez que hemos escrito el usual `full_page_writes` de copia para cada página, lo que
+terminará de cualquier manera como el volumen del procesamiento WAL actual.
 
 ## Detección de la Escala
 
@@ -68,7 +76,66 @@ escala parece ser las aulas.
 
 ## Definición del Script de Consulta
 
-...
+Como en la tabla con código de arriba, el código verdadero
+
+se copilan in su código fuente, la única manera en que podemos verlos es revisando
+la documentación `http://www.postgresql.org/docs/current/static/pgbench.html`.
+
+El script de transacción por defecto que es llamado también transacción "tipo TPC-B"
+cuando ejecutamos la prueba (y a la que nos referimos aquí como una transacción "TPC-B-like") presenta siete comandos por transacción. Dentro del programo
+esto tiene el aspecto siguiente:
+
+```sql
+\set nbranches :scale
+\set ntellers 10 * :scale
+\set naccounts 100000 * :scale
+\setrandom aid 1 :naccounts
+\setrandom bid 1 :nbranches
+\setramdom tid 1 :ntellers
+\setramdom delta -5000 5000
+BEGIN;
+UPDATE pgbench_accounts SET abalance = abalance + :delta WHERE aid = :aid;
+SELECT abalance FROM pgbench_accounts WHERE aid = :aid;
+UPDATE pgbench_tellers SET tbalance = tbalance + :delta WHERE tid = :tid;
+UPDATE pgbench_branches SET bbalance = bbalance + :delta WHERE bid = :bid;
+INSERT INTO pgbench_history (tid, bid, aid, delta, mtime) VALUES (:tid, :bid, :aid, :delta, CURRENT_TIMESTAMP);
+END;
+```
+
+Las primeras tres líneas computan cuantos branches, tellers y accounts tiene Esta
+base de datos basado en `:scale`, que es un nombre de variable especial que coloca
+la escala de la base de datos que se determina usando la lógica descrita en la sección
+anterior.
+
+Las siguientes cuatro líneas crean valores aleatorios que se usan para simular una
+transacción bancaria donde alguien fue a un cajero específico de una agencia específica
+y depositó o retiró alguna cantidad de dinero de su cuenta.
+
+The presumption that one is using...
+
+The main core here is five statements wrapped in a transaction block...
+
+Cada una de las sentencias tiene un impacto práctico muy diferente:
+
+* `UPDATE pgbench_accounts`: Siendo la tabla más grande esta es por mucho la sentencia
+más probable de disparar I/O de disco.
+
+* `SELECT abalance`: Como el `UPDATE` anterior ha dejado la información necesaria
+para responder esta consulta en la caché, esta agrega muy poca carga de trabajo
+para la prueba TPC-B-like.
+
+* `UPDATE pgbench_tellers`: Como hay muchos menos cajeros que cuentas esta tabla
+es pequeña y esta probablemente cacheada en RAM, pero aunque es pequeña tiende a
+ser la fuente de problemas de bloqueo.
+
+* `UPDATE pgbench_branches`: Siendo una tabla extremadamente pequeña todo su contenido
+esta ya probablemente cacheado y esencialmente libre de acceso. Sin embargo, por que
+es pequeña el bloqueo puede convertirse en un cuello de botella si usamos una escala
+pequeña y muchos clientes. De acuerdo con la recomenación general siempre es mejor
+asegurarse que la escala es mayor que los clientes para cualquier prueba que ejecutemos.
+En al practica, este problema no es realmente lo que importa aunque se puede ver
+en una de los ejemplos de abajo. Las I/O de disco sobre la tabla cuentas y la
+velocidad del commmit será una limitación mayor que el bloqueo en la mayoría de los casos.
 
 ... pero ejecutar solo sentencias `SELECT` es muy útil para examinar el tamaño de
 la cache en nuestro sistema operativo y para medir la velocidad máximo de CPU.
