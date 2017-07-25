@@ -47,3 +47,27 @@ Es una herramienta valiosa, un par de pinzas de plata que nos ayudan a mantener 
 nuestro código. La refactorización es una herramienta que puede y debería usarse para varios propósitos.
 
 #### La Refactorización Mejora el Diseño
+
+Sin la refactorización el diseño del programa decae. Mientras las personas cambian
+el código, cambios que se hacen para cumplir objetivos de corto plazo y sin la completa
+comprensión del diseño del código, este pierde su estructura. Llega a ser
+más difícil ver el diseño y leer el código. La refactorización es más que limpiar
+el código. El trabajo se hace para remover trozos de código que no están realmente
+en el lugar correcto. Perder la estructura del código tiene un efecto acumulativo.
+El diseño es lo más difícil de ver, lo más difícil de preservar y lo que más rápidamente
+decae. Refactorizaciones regulares ayudan al código a mantener su forma.
+
+Un código pobremente diseñado usualmente necesita más código para hacer la misma cosa,
+a menudo literalmente el código hace lo mismo en diferentes lugares. Un importante
+aspecto de la mejora del diseño es eliminar el código duplicado. La importancia de
+esto recae en las modificaciones futuras del código. Reducir la cantidad de código
+no hará al sistema ejecutarse más rápido, por que el efecto sobre el rendimiento
+del programa es raramente significativo. Sin embargo, reducir la cantidad de código
+hace un gran diferencia cuando se necesita modificarlo. Mientras más código existe
+más difícil es modificarlo correctamente. Hay más código para entender. Cambiamos
+un pedazo de código aquí pero el sistema no hace hace lo que esperamos por que no
+cambiamos ese otro pedazo de por allá que hace casi lo mismo en un contexto ligeramente
+diferente. Elimiar la duplicidad asegura que el código dice todo una y solo una vez,
+que es la esencia de un buen diseño.
+
+#### La Refactorización hace al Software más facíl de Entender
