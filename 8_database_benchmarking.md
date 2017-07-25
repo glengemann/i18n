@@ -137,6 +137,11 @@ En al practica, este problema no es realmente lo que importa aunque se puede ver
 en una de los ejemplos de abajo. Las I/O de disco sobre la tabla cuentas y la
 velocidad del commmit será una limitación mayor que el bloqueo en la mayoría de los casos.
 
+* `INSERT INTO pgbench_history`: La tabla de historia actuá como una tabla apéndice
+que nunca se actualiza o se consulta luego, en consecuencia esta ni siquiera
+tiene índices. Además, estas inserciones resultan tener un bajo volumen de escritura
+en comparación con las más costosos sentencias UPDATE indexadas.
+
 ... pero ejecutar solo sentencias `SELECT` es muy útil para examinar el tamaño de
 la cache en nuestro sistema operativo y para medir la velocidad máximo de CPU.
 
