@@ -1,4 +1,96 @@
-# Database Benchmarking
+# Ficha Técnica
+
+S.O: Debian GNU/Linux 8.0
+
+PostgreSQL: 9.4
+
+# Detalles de la prueba
+
+## Escenario Genérico sin Llaves primarias
+
+```bash
+$ createdb pgbench
+$ pgbench -i -s 10 pgbench
+```
+
+Se crean las tablas (`-i`) con una escala de `10`, es decir, 10 branches (sucursales),
+100 (10 * 10) tellers (cajeros) y 1 millón de (100000 * 10) accounts (cuentas).
+
+```bash
+$ pgbench -c 4 -j 4 -T 60 pgbench
+```
+
+Donde `-c` es el número de clientes concurrentes, `-j` es el número de hilos,
+`-T` el número de segundos que dura la prueba.
+
+![Diagrama entidad relación escenario genérico sin llaves primarias](pgbench-img/pgbench.png)
+
+## Escenario Genérico con Llaves Primarias
+
+```bash
+$ createdb pgbenchfk
+$ pgbench -i -s 10 --foreign-keys pgbenchfk
+$ pgbench -c 4 -j 4 -T 60 pgbenchfk
+```
+
+![Diagrama entidad relación escenario genérico sin llaves primarias](pgbench-img/pgbenchfk.png)
+
+\newpage
+
+# Resultados
+
+## Transacciones procesadas
+
+Los valores altos son buenos.
+
+![Transacciones procesadas](pgbench-img/trans-procesadas-barra.png)
+
+|transacciones procesadas | transacciones procesadas fk |
+|------|------|
+| 2914 | 9281 |
+| 4484 | 7637 |
+| 4454 | 7860 |
+| 4713 | 3873 |
+| 5691 | 4065 |
+| 5321 | 5573 |
+
+\newpage
+
+### Latencia
+
+Los valores bajos son buenos.
+
+![Latencia](pgbench-img/latencia-barra.png)
+
+| latencia promedio (ms) | latencia promedio fk (ms) |
+|----|----|
+| 82 | 28 |
+| 53 | 31 |
+| 53 | 36 |
+| 78 | 62 |
+| 42 | 59 |
+| 45 | 43 |
+
+\newpage
+
+### TPS
+
+Los valores altos son buenos.
+
+![TPS](pgbench-img/tps-barra.png)
+
+| tps | tps fk |
+|---|-----|
+| 48| 142 |
+| 74| 127 |
+| 74| 111 |
+| 78| 64 |
+| 94| 67 |
+| 88| 91 |
+
+\newpage
+
+# Database Benchmarking (bibliografía)
 
 PostgreSQL se distribuye con un programa de benchmarking llamado `pgbench` que se
 puede usar para una variedad de pruebas. Las pruebas que se incluyen por defecto
@@ -257,69 +349,17 @@ embargo, en el peor caso la latencia es un valor extremadamente importante para
 tomar en cuenta en muchas aplicaciones y no podemos determinarlo con ningún
 promedio de TPS.
 
+# Resumen
 
+Benchmarking una base de datos es un tema muy extenso y en este capítulo solo introduce
+los conceptos principales. Teniendo la herramienta `pgbench` empaquetada en nuestra
+base de datos es handy para hacer pequeñas pruebas pero necesitamos ser cuidadosos
+de sus limitaciones antes de que rely demasiado nuestros resultados en nuestros
+esfuerzos de ajustar el rendimiento.
 
-# Ficha Técnica
+* La base para las pruebas incluidas en pgbench están desactualizadas,...
 
-S.O:
+$ pandoc 8_database_benchmarking.md --latex-engine=xelatex -o 8_database_benchmarking.pdf
+$ pandoc -s -t rst --toc 8_database_benchmarking.md -o 8_database_benchmarking.rst
 
-
-## Resultados
-
-
-
-## Escenario Genérico sin Llaves primarias
-
-$ createdb pgbench
-$ pgbench -i -s 10 pgbench
-
-### Prueba A: _select only_
-
-```bash
-$ pgbench -S -c 4 -t 20000 pgbench
-```
-
-transaction type: <builtin: select only>
-scaling factor: 10
-query mode: simple
-number of clients: 4
-number of threads: 1
-number of transactions per client: 20000
-number of transactions actually processed: 80000/80000
-latency average = 0.590 ms
-tps = 6782.773045 (including connections establishing)
-tps = 6784.675640 (excluding connections establishing)
-
-### Prueba B: TPC-B
-
-transaction type: <builtin: TPC-B (sort of)>
-scaling factor: 10
-query mode: simple
-number of clients: 4
-number of threads: 2
-duration: 600 s
-number of transactions actually processed: 72662
-latency average = 33.034 ms
-tps = 121.086642 (including connections establishing)
-tps = 121.087346 (excluding connections establishing)
-
-
-## Escenario Genérico con Llaves Primarias
-
-$ createdb pgbenchfk
-$ pgbench -i -s 10 --foreign-keys pgbenchfk
-
-### Esceneario _select only_
-
-$ pgbench -S -c 4 -t 20000 pgbenchfk
-
-transaction type: <builtin: select only>
-scaling factor: 10
-query mode: simple
-number of clients: 4
-number of threads: 1
-number of transactions per client: 20000
-number of transactions actually processed: 80000/80000
-latency average = 0.768 ms
-tps = 5205.910348 (including connections establishing)
-tps = 5207.362208 (excluding connections establishing)
+aptitude install gnuplot sysstat
