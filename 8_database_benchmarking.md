@@ -11,7 +11,8 @@ de los resultados en la mayoría de los datos.
 
 ## Pruebas por defecto de pgbench
 
-...
+La ispiración original para la prueba `pgbench` es la prueba llamada TPC-B desarrollada
+Transaction Processing Performance Council (TPC): `http://www.tpc.org/tpcb/`.
 
 ...
 
@@ -102,8 +103,8 @@ INSERT INTO pgbench_history (tid, bid, aid, delta, mtime) VALUES (:tid, :bid, :a
 END;
 ```
 
-Las primeras tres líneas computan cuantos branches, tellers y accounts tiene Esta
-base de datos basado en `:scale`, que es un nombre de variable especial que coloca
+Las primeras tres líneas computan cuantos branches, tellers y accounts tiene esta
+base de datos basado en la `:scale`, que es un nombre de variable especial que coloca
 la escala de la base de datos que se determina usando la lógica descrita en la sección
 anterior.
 
@@ -113,7 +114,7 @@ y depositó o retiró alguna cantidad de dinero de su cuenta.
 
 The presumption that one is using...
 
-The main core here is five statements wrapped in a transaction block...
+Lo principal aquí es las cinco sentencias envueltas en el bloque transacción...
 
 Cada una de las sentencias tiene un impacto práctico muy diferente:
 
@@ -168,15 +169,104 @@ Esta es la simulación del escenario donde cuatro clientes de base de datos est�
 activos al mismo tiempo y continuamente consultando los datos. Cada cliente está
 en ejecución hasta que se ejecuta el número de peticiones de las transacciones.
 
-...
+Since this is a Linux...
+Como este es un sistema GNU/Linux
 Usar más de un hilo (solo disponible desde PostgreSQL 9.0) muestra una mejora dramática
 de la velocidad.
 
-##
+
+```bash
+```
+
+
+## Pruebas a la medida con pgbench
+
+Aúnque las pruebas incluidas son interesantes podemos usar pgbench para ejecutar
+pruebas de estrés sobre nuestra propia base de datos. Nos permite ejecutar varios
+clientes en uno y ejecutar consultas concurrentes en un script pequeño.
+
+### Probar la velocidad de inserción
+
+Para dar una idea de como esto puede ser útil imaginemos que queremos probar cuan
+rápido nuestro sistema puede escribir información usando `INSERT`. Podemos copiar el
+concepto *filler* (descripción) de las tablas incluidas por defecto en donde queremos
+crear una cadena de caracteres con un tamaño particular y por consiguiente un tamaño
+en bytes, sin preocuparnos del contenido (este se incluyen en `pgbench-tools` como
+`init/insertsize.sql`):
+
+```sql
+CREATE TABLE data (filler text);
+```
+
+Para luego crear un script a la medida que llena
+
+```sql
+INSERT INTO data (filler) VALUES (repeat('X',:scale));
+```
+
+Esto toma prestado el concepto de "escala" de la prueba regular y lo usa para
+especificar el tamaño de los datos insertados. Podemos crear nuestras propias
+variables con otros nombres pasando los valores desde la línea de comandos para
+luego referirnos a ellos dentro del script.
+
+Abajo se muestra un ejemplo de instalación y uso de una versión de ejemplo incluida
+en `pgbench-tools`, seguido por la ejecución manual de esta prueba con `pgbench`:
+
+```bash
+$ cretedb insert
+$ psql -d insert -f init/insertsize.sql
+$ pgbench -s 1000 -f tests/insert-size.sql -n -c 4 -t 25000 insert
+```
+
+Como con la mayoría de las pruebas a la medida tenemos que especificar manualmente
+la escala para colocarla correctamente y saltar el paso del `VACUUM` que normalmente
+sería hecho sobre la tabla estándar con `-n`.
+
+Estos datos no son interesante por ellos mismos pero si actualizamos la parte final
+de la configuración de `pgbench-tools` para ejecutar esta prueba variando la cantidad
+de clientes y el tamaño.
+
+```bash
+SCALES="10 100 1000 10000"
+SCRIPT="insert-size.sql"
+TOTTRANS=100000
+SETTIMES=1
+SETCLIENTS="1 2 4 8 16"
+SKIPINIT=1
+```
+Y luego ejecutar este conjunto y probablemente veremos emerger un patrón más interesante.
+En la prueba sobre mi sistema, las sentencias `INSERT` por segundo no varían mucho
+si escribimos 1 o 100000 bytes en cada una. Esto está primeramente relacionado con
+la velocidad de escritura del disco que es siempre mucho menos que la velocidad
+de la tasa secuencial de escritura disco.
+
+Pero una vez que hemos alcanzado un número suficientemente grande de clientes combinados
+con más bytes escritos en cada ocasión, eventualmente la tasa total de `INSERT`
+completados por segundo comienza a disminuir. Encontrar este punto, cantidad actual
+del disco escrito usando la herramienta de monitoreo del SO, habremos determinado
+el punto en que no es capaz de escribir nuevos datos en la base de datos, bajo una
+carga de trabajo actual (algo que nos es muy fácil de medir directamente).
+
+This is a modertely...
+
+##Analisis de latencia
+
+La mayoría del tiempo puedes pensar en la **latencia** (el tiempo que toma procesar
+una transacción) como la inversa de las transaccions sobre segundos. Sin
+embargo, en el peor caso la latencia es un valor extremadamente importante para
+tomar en cuenta en muchas aplicaciones y no podemos determinarlo con ningún
+promedio de TPS.
+
+
 
 # Ficha Técnica
 
 S.O:
+
+
+## Resultados
+
+
 
 ## Escenario Genérico sin Llaves primarias
 
