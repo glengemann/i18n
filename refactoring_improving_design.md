@@ -83,4 +83,19 @@ diferente. Elimiar la duplicidad asegura que el código dice todo una y solo una
 que es la esencia de un buen diseño.
 
 #### La Refactorización hace al Software más facíl de Entender
->>>>>>> 623cf781b04d0ce40dd4dc1967c670732eec7f81
+
+Programar es en muchas maneras una conversación con una computadora.
+
+### La refactorización ayuda encontrar errores
+
+Además de ayudar a entender el código nos ayuda a ver errores. Debo admitirlo,
+no soy muy bueno encontrando errores. Algunas personas pueden leer un pedazo de
+código y ver errores, yo no puedo. Sin embargo, encuentro que si refactorizamos el
+código trabajamos profundamente en la compresención de lo que el código hace y
+colocamos rápidamente esta comprensión dentro del código. Cuando se aclara la estructura
+del programa aclaramos ciertas suposiciones que hemos hecho hasta el punto en que
+incluso no podemos evitar ver los errores.
+
+Esto me recuerda una afirmación que comunmente Kent Beck hace sobre sí mismo: «No
+soy un gran programador, yo solo soy un buen programador con buenos habitos.»
+Refactorizar nos ayuda a ser mucho más efectivos cuando escribimos código robusto.
