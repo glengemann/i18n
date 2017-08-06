@@ -341,7 +341,39 @@ carga de trabajo actual (algo que nos es muy fácil de medir directamente).
 
 This is a modertely...
 
-##Analisis de latencia
+## Graficar los resultados con pgbench-tools
+
+### Configurar pgbench-tools
+
+```bash
+$ cd pgbench-tools/
+$ createdb pgbench
+$ createdb results
+$ psql -d results -f init/resultdb.sql
+```
+
+This may...
+
+The results...
+
+Una vez que sabemos donde cada base de datos se encuentra vamos a editar el archivo
+`config` en la raíz del directorio `pgbench-tools` y actualizar
+los valores de las variables `TEST` y `RESULT`. Podemos ajustar el número de hilos
+de trabajo; ver las notas sobre esto en las secciones siguientes y en la documentación
+de `pgbench-tools`.
+
+### Customizing 8.3
+
+If you're using
+
+### Ejemplo de los resultados de pgbench
+
+Todos estos vienen desde el ejemplo del servidor y configuración que se describió
+y el tipo de gráficos que se genera con `pgbench-tools` cada vez que se ejecuta.
+Estos resultados se crearon con PostgreSQL 9.0 que permite llegar hasta cuatro
+hilos de trabajo de `pgbench` (uno por núcleo).
+
+##Análisis de latencia
 
 La mayoría del tiempo puedes pensar en la **latencia** (el tiempo que toma procesar
 una transacción) como la inversa de las transaccions sobre segundos. Sin
