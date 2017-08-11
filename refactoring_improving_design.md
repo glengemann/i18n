@@ -99,3 +99,34 @@ incluso no podemos evitar ver los errores.
 Esto me recuerda una afirmación que comunmente Kent Beck hace sobre sí mismo: «No
 soy un gran programador, yo solo soy un buen programador con buenos habitos.»
 Refactorizar nos ayuda a ser mucho más efectivos cuando escribimos código robusto.
+
+### La refactorización ayuda a programar más rápido
+
+Al final todos los puntos anteriores conducen a este: La refactorización nos ayuda
+a desarrollar código más rapidamente.
+
+Esto suena contraintuitivo. Cuans se habla de refactorización la gente puede ver
+fasilmente que esta mejora la calidad. Mejora el diseño, mejora la legibilidad, reduce
+los errores y todo esto mejora la calidad. Pero, ¿todos estas cosas no reducen
+la velocidad del desarrollo?
+
+Creo firmenten que un buen diseño es esencial para el desarrllo rápido de software.
+De hecho, el punto central de tener un buen diseño es permitir un rápido desarrollo.
+Sin un buen diseño, podemos progresar rapidamente por un tiempo pero pronto el pobre
+diseño comienza a retrazarnos. Dedicamos tiempo encontrando y corrigiendo errores en
+lugar de agregar nuevas funciones. Los cambios toman más tiempo cuando intentamos entender
+el sistema y encontrar el código duplicado. Las nuevas caracteristicas necesitan más
+código cuando remendamos sobre un remiendo que remienda un remiendo sobre el código
+original.
+
+## ¿Cuando deberíamos refactorizar?
+
+Cuando hablo sobre la refactorización a menudo me preguntan sobre para que momento
+debería ser programado. ¿La refactorización debería ser planificada para dos semanas
+cada par de meses?
+
+En la mayoría de los casos estoy en contra de asignar tiempo para refactorizar.
+Desde mi punto de vista la refactorización no es una actividad a la que podamos
+asignar un momento para hacerla. La refactorización es algo que hacemos todo el
+tiempo como rafagas. No decidimos refactorizar, refactorizamos por que queremos
+hacer algo más y la refactorización te ayuda a hacer esa otra cosa.
