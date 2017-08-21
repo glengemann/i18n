@@ -130,3 +130,32 @@ Desde mi punto de vista la refactorización no es una actividad a la que podamos
 asignar un momento para hacerla. La refactorización es algo que hacemos todo el
 tiempo como rafagas. No decidimos refactorizar, refactorizamos por que queremos
 hacer algo más y la refactorización te ayuda a hacer esa otra cosa.
+
+### La regla de tres
+
+Esta es una regla que Don Roberts me dio: La primera vez que hacemos algo, solo lo hacemos. La
+seguda vez que hacemos algo similar, con una mueca de dolar por la duplicación, duplicamos
+la cosa. La tercera vez que hacemos algo similar refactorizamos.
+
+Tip: _Tres golpes y refactorizamos_
+
+### Refactorizar cuando se agrega una función
+
+El momento más comun para refactorizar es cuando queremos agregar una nueva característica
+a algún software. A menudo la primera razón para refactorizar es ayudarnos a entender el código
+que necesitamos modificar. Este código pudo haber sido escrito por alguien más o pudo haber
+sido escrito por nosotros. Siempre que tengo que pensar para entender lo que el código está
+haciendo me pregunto si puedo refactorizar el código para poner este conocimiento sobre
+el código y hacerlo más evidente. Luego refactorizo el código. Esto es en parte pensando en
+la próxima vez que pase por allí pero es principalmente porque puedo entender más cosas si
+aclaro el código con el que voy a estar trabajando.
+
+La otra motivación que nos conduce a refactorizar es la presencia de un diseño que no nos
+ayuda a agregar una nueva característica fácilmente. Miro el diseño y me digo a mi mismo:
+"Si hubiera diseñado el código de esta manera, agregar esta característica sería fácil".
+En este caso no pierdo el sueño por mis errores pasados, los corrijo refactorizandolos.
+Hacemos esto en parte para hacer más fácil el crecimiento futuro pero principalmente 
+porque he encontrado que está es la manera más rápida. La refactorización es un proceso
+rápido y suave. Una vez que hemos refactorizado agregar una característica puede ir
+mucho más rápidamente y suavemente.
+
