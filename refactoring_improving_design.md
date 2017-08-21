@@ -14,6 +14,18 @@ La primera cosa que podemos decir es que la palabra *Refactorización* tiene dos
 dependiendo del contexto. Podríamos encontrar esto fastidioso (y de hecho lo es), pero
 esto sirve como otro ejemplo más de las realidades de trabajar con lenguajes naturales.
 
+<<<<<<< HEAD
+La primera definición como sustantivo:
+
+[NOTE]: refactorización (sustantivo): un cambio hecho a la estructura interna del software
+para hacerlo más facíl de entender y económico de modificar sin cambiar su comportamiento
+observable.
+
+Podemos encontrar ejemplos de refactorización en el catalogo, como `Extract Method`
+y `Pull Up Field`. Una refactorización es usualmente un pequeño cambio en el software,
+pero una refactorización puede implicar otras. Por ejemplo, `Extract Class` usualmente
+implica `Move Method` y `Move Field`.
+=======
 ...
 
 Me han preguntado: "¿La refactorización es solo limpiar el código?" En principio la respuesta es
@@ -71,3 +83,50 @@ diferente. Elimiar la duplicidad asegura que el código dice todo una y solo una
 que es la esencia de un buen diseño.
 
 #### La Refactorización hace al Software más facíl de Entender
+
+Programar es en muchas maneras una conversación con una computadora.
+
+### La refactorización ayuda encontrar errores
+
+Además de ayudar a entender el código nos ayuda a ver errores. Debo admitirlo,
+no soy muy bueno encontrando errores. Algunas personas pueden leer un pedazo de
+código y ver errores, yo no puedo. Sin embargo, encuentro que si refactorizamos el
+código trabajamos profundamente en la compresención de lo que el código hace y
+colocamos rápidamente esta comprensión dentro del código. Cuando se aclara la estructura
+del programa aclaramos ciertas suposiciones que hemos hecho hasta el punto en que
+incluso no podemos evitar ver los errores.
+
+Esto me recuerda una afirmación que comunmente Kent Beck hace sobre sí mismo: «No
+soy un gran programador, yo solo soy un buen programador con buenos habitos.»
+Refactorizar nos ayuda a ser mucho más efectivos cuando escribimos código robusto.
+
+### La refactorización ayuda a programar más rápido
+
+Al final todos los puntos anteriores conducen a este: La refactorización nos ayuda
+a desarrollar código más rapidamente.
+
+Esto suena contraintuitivo. Cuans se habla de refactorización la gente puede ver
+fasilmente que esta mejora la calidad. Mejora el diseño, mejora la legibilidad, reduce
+los errores y todo esto mejora la calidad. Pero, ¿todos estas cosas no reducen
+la velocidad del desarrollo?
+
+Creo firmenten que un buen diseño es esencial para el desarrllo rápido de software.
+De hecho, el punto central de tener un buen diseño es permitir un rápido desarrollo.
+Sin un buen diseño, podemos progresar rapidamente por un tiempo pero pronto el pobre
+diseño comienza a retrazarnos. Dedicamos tiempo encontrando y corrigiendo errores en
+lugar de agregar nuevas funciones. Los cambios toman más tiempo cuando intentamos entender
+el sistema y encontrar el código duplicado. Las nuevas caracteristicas necesitan más
+código cuando remendamos sobre un remiendo que remienda un remiendo sobre el código
+original.
+
+## ¿Cuando deberíamos refactorizar?
+
+Cuando hablo sobre la refactorización a menudo me preguntan sobre para que momento
+debería ser programado. ¿La refactorización debería ser planificada para dos semanas
+cada par de meses?
+
+En la mayoría de los casos estoy en contra de asignar tiempo para refactorizar.
+Desde mi punto de vista la refactorización no es una actividad a la que podamos
+asignar un momento para hacerla. La refactorización es algo que hacemos todo el
+tiempo como rafagas. No decidimos refactorizar, refactorizamos por que queremos
+hacer algo más y la refactorización te ayuda a hacer esa otra cosa.
